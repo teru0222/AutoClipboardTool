@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自動クリップボードコピーエディタ</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #ff4081;
+            font-size: 24px;
+        }
+        textarea {
+            width: 400px;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ff4081;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #e91e63;
+        }
+        .message {
+            margin-top: 10px;
+            color: #4caf50;
+            font-weight: bold;
+            font-size: 16px;
+            height: 24px; /* 高さを固定 */
+            line-height: 24px; /* テキストを縦中央に配置 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>自動クリップボードコピーエディタ</h1>
+    <textarea id="textInput" placeholder="ここにテキストを入力してください"></textarea>
+    <br>
+    <button id="copyButton">手動でコピー</button>
+    <p class="message" id="message"></p>
+</div>
+
+<script>
+    const textInput = document.getElementById('textInput');
+    const message = document.getElementById('message');
+    const copyButton = document.getElementById('copyButton');
+    let timer;
+
+    // テキストが変更されるたびにタイマーをリセット
+    textInput.addEventListener('input', () => {
+        clearTimeout(timer);
+        message.textContent = ''; // メッセージをクリア
+        // 1秒後にクリップボードにコピーする
+        timer = setTimeout(copyToClipboard, 1000);
+    });
+
+    // クリップボードにコピーする関数
+    function copyToClipboard() {
+        textInput.select();
+        document.execCommand('copy');
+        message.textContent = 'クリップボードに自動コピーしました!';
+    }
+
+    // 手動コピー用のボタン
+    copyButton.addEventListener('click', () => {
+        textInput.select();
+        document.execCommand('copy');
+        message.textContent = 'クリップボードに手動コピーしました!';
+    });
+</script>
+
+</body>
+</html>
